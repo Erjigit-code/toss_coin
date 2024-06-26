@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
+  
   cupertino_icons: ^1.0.6
   equatable: ^2.0.5
   flutter:
@@ -73,8 +74,8 @@ flutter:
     - family: MyFlutterApp
       fonts:
         - asset: fonts/MyFlutterApp.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
     - family: Exo
       fonts:
         - asset: fonts/Exo2-ExtraBold.ttf

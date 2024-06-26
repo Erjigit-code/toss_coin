@@ -1,9 +1,10 @@
-import 'package:coin_flip/screens/select_coin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/coin_bloc.dart';
-import 'background_slct_screen.dart';
+import 'bacground/background_slct_screen.dart';
+import 'bacground/bloc/background_bloc.dart';
+import 'select_coin_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String initialSelectedImage;
@@ -24,8 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     selectedImage = widget.initialSelectedImage;
-    selectedCoin =
-        BlocProvider.of<CoinBloc>(context).state.selectedCoin; // Add this line
+    selectedCoin = BlocProvider.of<CoinBloc>(context).state.selectedCoin;
   }
 
   @override
@@ -37,42 +37,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSettingsOption(
-            title: "Выбор Фона",
-            onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BackgroundSelectionScreen(
-                      initialSelectedImage: selectedImage),
-                ),
+          BlocBuilder<BackgroundBloc, BackgroundState>(
+            builder: (context, state) {
+              return _buildSettingsOption(
+                title: "Выбор Фона",
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BackgroundSelectionScreen(
+                          initialSelectedImage: selectedImage),
+                    ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      selectedImage = result;
+                    });
+                    BlocProvider.of<BackgroundBloc>(context)
+                        .add(ChangeBackground(result));
+                  }
+                },
               );
-              if (result != null) {
-                setState(() {
-                  selectedImage = result;
-                });
-                BlocProvider.of<CoinBloc>(context)
-                    .add(ChangeBackground(selectedImage));
-              }
             },
           ),
-          _buildSettingsOption(
-            title: "Выбор монеты",
-            onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      CoinSelectionScreen(initialSelectedCoin: selectedCoin),
-                ),
+          BlocBuilder<CoinBloc, CoinState>(
+            builder: (context, state) {
+              return _buildSettingsOption(
+                title: "Выбор монеты",
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CoinSelectionScreen(
+                          initialSelectedCoin: selectedCoin),
+                    ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      selectedCoin = result;
+                    });
+                    BlocProvider.of<CoinBloc>(context)
+                        .add(ChangeCoin(selectedCoin));
+                  }
+                },
               );
-              if (result != null) {
-                setState(() {
-                  selectedCoin = result;
-                });
-                BlocProvider.of<CoinBloc>(context)
-                    .add(ChangeCoin(selectedCoin));
-              }
             },
           ),
           const Divider(),
