@@ -8,22 +8,13 @@ abstract class CoinEvent extends Equatable {
 }
 
 class FlipCoin extends CoinEvent {
-  final String userPrediction;
   final bool isHeads;
+  final String userPrediction;
 
-  const FlipCoin(this.userPrediction, this.isHeads);
-
-  @override
-  List<Object> get props => [userPrediction, isHeads];
-}
-
-class ChangeBackground extends CoinEvent {
-  final String newBackground;
-
-  const ChangeBackground(this.newBackground);
+  const FlipCoin(this.isHeads, this.userPrediction);
 
   @override
-  List<Object> get props => [newBackground];
+  List<Object> get props => [isHeads, userPrediction];
 }
 
 class _RecordLoaded extends CoinEvent {
@@ -49,14 +40,12 @@ class ResetRecord extends CoinEvent {}
 
 class _PreferencesLoaded extends CoinEvent {
   final int record;
-  final String backgroundImage;
   final String selectedCoin;
 
-  const _PreferencesLoaded(
-      this.record, this.backgroundImage, this.selectedCoin);
+  const _PreferencesLoaded(this.record, this.selectedCoin);
 
   @override
-  List<Object> get props => [record, backgroundImage, selectedCoin];
+  List<Object> get props => [record, selectedCoin];
 }
 
 class ChangeCoin extends CoinEvent {
@@ -67,3 +56,5 @@ class ChangeCoin extends CoinEvent {
   @override
   List<Object> get props => [newCoin];
 }
+
+class LoadCoinPreferences extends CoinEvent {}

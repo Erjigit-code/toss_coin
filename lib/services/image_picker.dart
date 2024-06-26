@@ -1,7 +1,7 @@
+import 'package:coin_flip/screens/bacground/bloc/background_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:coin_flip/bloc/coin_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'image_source_dialog.dart';
@@ -18,7 +18,8 @@ class ImagePickerService {
 
     if (pickedFile != null) {
       onImageSelected(pickedFile.path);
-      BlocProvider.of<CoinBloc>(context).add(ChangeBackground(pickedFile.path));
+      BlocProvider.of<BackgroundBloc>(context)
+          .add(ChangeBackground(pickedFile.path));
     }
   }
 

@@ -82,7 +82,7 @@ class CoinFlipAnimationState extends State<CoinFlipAnimation>
         });
 
         BlocProvider.of<CoinBloc>(context)
-            .add(FlipCoin(userPrediction ?? '', finalResult));
+            .add(FlipCoin(isHeads, userPrediction ?? ''));
       }
     });
   }
