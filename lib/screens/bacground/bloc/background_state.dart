@@ -15,13 +15,14 @@ class BackgroundsLoaded extends BackgroundState {
 
   const BackgroundsLoaded(this.backgrounds, this.selectedPath);
 
-  BackgroundsLoaded copyWith({String? selectedPath}) {
+  @override
+  List<Object> get props => [backgrounds, selectedPath];
+
+  BackgroundsLoaded copyWith(
+      {List<Map<String, String>>? backgrounds, String? selectedPath}) {
     return BackgroundsLoaded(
-      backgrounds,
+      backgrounds ?? this.backgrounds,
       selectedPath ?? this.selectedPath,
     );
   }
-
-  @override
-  List<Object> get props => [backgrounds, selectedPath];
 }

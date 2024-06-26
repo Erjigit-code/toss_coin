@@ -1,10 +1,10 @@
+import 'package:coin_flip/screens/select_coin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/coin_bloc.dart';
 import 'bacground/background_slct_screen.dart';
 import 'bacground/bloc/background_bloc.dart';
-import 'select_coin_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String initialSelectedImage;
@@ -12,10 +12,10 @@ class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key, required this.initialSelectedImage});
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends State<SettingsScreen> {
   late String selectedImage;
   late String selectedCoin;
   bool isConfirmingReset = false;
@@ -39,25 +39,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           BlocBuilder<BackgroundBloc, BackgroundState>(
             builder: (context, state) {
-              return _buildSettingsOption(
-                title: "Выбор Фона",
-                onTap: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BackgroundSelectionScreen(
-                          initialSelectedImage: selectedImage),
-                    ),
-                  );
-                  if (result != null) {
-                    setState(() {
-                      selectedImage = result;
-                    });
-                    BlocProvider.of<BackgroundBloc>(context)
-                        .add(ChangeBackground(result));
-                  }
-                },
-              );
+              if (state is BackgroundsLoaded) {
+                return _buildSettingsOption(
+                  title: "Выбор Фона",
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BackgroundSelectionScreen(
+                            initialSelectedImage: selectedImage),
+                      ),
+                    );
+                    if (result != null) {
+                      if (mounted) {
+                        setState(() {
+                          selectedImage = result;
+                          BlocProvider.of<BackgroundBloc>(context)
+                              .add(ChangeBackground(selectedImage));
+                        });
+                      }
+                    }
+                  },
+                );
+              } else if (state is BackgroundInitial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Container();
             },
           ),
           BlocBuilder<CoinBloc, CoinState>(
@@ -73,11 +82,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   );
                   if (result != null) {
-                    setState(() {
-                      selectedCoin = result;
-                    });
-                    BlocProvider.of<CoinBloc>(context)
-                        .add(ChangeCoin(selectedCoin));
+                    if (mounted) {
+                      setState(() {
+                        selectedCoin = result;
+                        BlocProvider.of<CoinBloc>(context)
+                            .add(ChangeCoin(selectedCoin));
+                      });
+                    }
                   }
                 },
               );
@@ -123,19 +134,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            void _startCountdown() {
+            void startCountdown() {
               Future.delayed(const Duration(seconds: 1), () {
                 if (countdown > 0) {
                   setState(() {
                     countdown--;
                   });
-                  _startCountdown();
+                  startCountdown();
                 }
               });
             }
 
             if (countdown == 3) {
-              _startCountdown();
+              startCountdown();
             }
 
             return AlertDialog(
