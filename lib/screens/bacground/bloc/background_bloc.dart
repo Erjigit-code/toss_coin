@@ -1,19 +1,19 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart'; // Для precacheImage
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'background_event.dart';
 part 'background_state.dart';
 
 class BackgroundBloc extends Bloc<BackgroundEvent, BackgroundState> {
-  BackgroundBloc(BuildContext context) : super(BackgroundInitial()) {
-    this.context = context;
+  final BuildContext context;
+
+  BackgroundBloc(this.context) : super(BackgroundInitial()) {
     on<LoadBackgrounds>(_onLoadBackgrounds);
     on<LoadPreferences>(_onLoadPreferences);
     on<ChangeBackground>(_onChangeBackground);
   }
-
-  late BuildContext context;
 
   void _precacheImages(List<Map<String, String>> backgrounds) {
     for (var background in backgrounds) {
@@ -36,8 +36,10 @@ class BackgroundBloc extends Bloc<BackgroundEvent, BackgroundState> {
   }
 
   void _onChangeBackground(
-      ChangeBackground event, Emitter<BackgroundState> emit) {
+      ChangeBackground event, Emitter<BackgroundState> emit) async {
     if (state is BackgroundsLoaded) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('backgroundImage', event.newBackground);
       emit((state as BackgroundsLoaded)
           .copyWith(selectedPath: event.newBackground));
     }

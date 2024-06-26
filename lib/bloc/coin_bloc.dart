@@ -6,7 +6,7 @@ part 'coin_event.dart';
 part 'coin_state.dart';
 
 class CoinBloc extends Bloc<CoinEvent, CoinState> {
-  CoinBloc() : super(CoinInitial(0, 0, false, '', 'euro')) {
+  CoinBloc() : super(const CoinInitial(0, 0, false, '', 'euro')) {
     on<FlipCoin>(_onFlipCoin);
     on<_RecordLoaded>(_onRecordLoaded);
     on<UpdateStreakAndRecord>(_onUpdateStreakAndRecord);
