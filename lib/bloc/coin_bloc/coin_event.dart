@@ -57,4 +57,6 @@ class ChangeCoin extends CoinEvent {
   List<Object> get props => [newCoin];
 }
 
-class LoadCoinPreferences extends CoinEvent {}
+class LoadCoinPreferences extends CoinEvent {
+  const LoadCoinPreferences();
+}

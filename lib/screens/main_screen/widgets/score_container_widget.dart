@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/coin_bloc.dart';
+import '../../../bloc/coin_bloc/coin_bloc.dart';
 
 class ScoreContainerWidget extends StatelessWidget {
   @override

@@ -3,9 +3,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:coin_flip/utils/animation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/coin_bloc.dart';
-import '../utils/animation_helpers.dart';
-import '../utils/audio_player.dart';
+import '../../../bloc/coin_bloc/coin_bloc.dart';
+import '../../../utils/animation_helpers.dart';
+import '../../../utils/audio_player.dart';
 import 'coin_flip_widget.dart';
 
 class CoinFlipAnimation extends StatefulWidget {

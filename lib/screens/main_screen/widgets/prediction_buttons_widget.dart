@@ -21,19 +21,19 @@ class PredictionButtonsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CustomButton(
-            label: "Орел",
+            label: "Орёл",
             imagePath: 'assets/images/icon1.png',
-            isActive: activeButton == 'Орёл',
+            isActive: activeButton == 'Tail',
             onPressed: () {
-              onPredictionSelected('Орёл');
+              onPredictionSelected('Tail');
             },
           ),
           CustomButton(
             label: "Решка",
             imagePath: 'assets/images/icon2.png',
-            isActive: activeButton == 'Решка',
+            isActive: activeButton == 'Head',
             onPressed: () {
-              onPredictionSelected('Решка');
+              onPredictionSelected('Head');
             },
           ),
         ],

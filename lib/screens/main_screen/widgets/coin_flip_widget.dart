@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/coin_bloc.dart';
-import '../utils/coin_image_provider.dart';
+import '../../../bloc/coin_bloc/coin_bloc.dart';
+import '../../../utils/coin_image_provider.dart';
 
 class CoinFlipWidget extends StatelessWidget {
   final AnimationController verticalController;

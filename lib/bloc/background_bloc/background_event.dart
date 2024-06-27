@@ -8,7 +8,7 @@ abstract class BackgroundEvent extends Equatable {
 }
 
 class LoadBackgrounds extends BackgroundEvent {
-  final List<Map<String, String>> backgrounds;
+  final List<String> backgrounds;
 
   const LoadBackgrounds(this.backgrounds);
 
@@ -17,12 +17,12 @@ class LoadBackgrounds extends BackgroundEvent {
 }
 
 class LoadPreferences extends BackgroundEvent {
-  final String backgroundImage;
+  final String? backgroundImage;
 
-  const LoadPreferences({required this.backgroundImage});
+  const LoadPreferences({this.backgroundImage});
 
   @override
-  List<Object> get props => [backgroundImage];
+  List<Object> get props => [backgroundImage ?? ''];
 }
 
 class ChangeBackground extends BackgroundEvent {

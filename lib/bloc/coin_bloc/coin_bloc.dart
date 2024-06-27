@@ -6,23 +6,35 @@ part 'coin_event.dart';
 part 'coin_state.dart';
 
 class CoinBloc extends Bloc<CoinEvent, CoinState> {
-  CoinBloc() : super(const CoinInitial(0, 0, false, '', 'euro')) {
+  CoinBloc()
+      : super(const CoinInitial(
+            currentStreak: 0,
+            record: 0,
+            isHeads: false,
+            userPrediction: '',
+            selectedCoin: 'euro')) {
     on<FlipCoin>(_onFlipCoin);
     on<_RecordLoaded>(_onRecordLoaded);
     on<UpdateStreakAndRecord>(_onUpdateStreakAndRecord);
     on<ResetRecord>(_onResetRecord);
-    on<_PreferencesLoaded>(_onPreferencesLoaded);
+    on<_PreferencesLoaded>(_onCoinPreferencesLoaded);
     on<ChangeCoin>(_onChangeCoin);
-    on<LoadCoinPreferences>(
-        _onLoadPreferences); // Добавлено событие LoadPreferences
+    on<LoadCoinPreferences>(_onLoadCoinPreferences);
   }
 
-  Future<void> _onLoadPreferences(
+  Future<void> _onLoadCoinPreferences(
       LoadCoinPreferences event, Emitter<CoinState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    final record = prefs.getInt('record') ?? 0;
-    final selectedCoin = prefs.getString('selectedCoin') ?? 'euro';
-    add(_PreferencesLoaded(record, selectedCoin));
+    print("Loading coin preferences...");
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final record = prefs.getInt('record') ?? 0;
+      final selectedCoin = prefs.getString('selectedCoin') ?? 'euro';
+      emit(CoinPreferencesLoaded(record, selectedCoin));
+      print("Coin preferences successfully loaded.");
+    } catch (e) {
+      emit(CoinError("Error loading coin preferences."));
+      print("Error loading coin preferences: $e");
+    }
   }
 
   void _onChangeCoin(ChangeCoin event, Emitter<CoinState> emit) async {
@@ -43,7 +55,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     int newStreak = state.currentStreak;
     int newRecord = state.record;
 
-    if (event.userPrediction == (event.isHeads ? 'Решка' : 'Орёл')) {
+    if (event.userPrediction == (event.isHeads ? 'Head' : 'Tail')) {
       newStreak++;
       if (newStreak > newRecord) {
         newRecord = newStreak;
@@ -74,7 +86,8 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     emit(state.copyWith(record: 0));
   }
 
-  void _onPreferencesLoaded(_PreferencesLoaded event, Emitter<CoinState> emit) {
+  void _onCoinPreferencesLoaded(
+      _PreferencesLoaded event, Emitter<CoinState> emit) {
     emit(
         state.copyWith(record: event.record, selectedCoin: event.selectedCoin));
   }

@@ -1,8 +1,8 @@
-import 'package:coin_flip/screens/bacground/bloc/background_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/background_bloc/background_bloc.dart';
 
 import 'image_source_dialog.dart';
 
@@ -11,7 +11,6 @@ class ImagePickerService {
   final BuildContext context;
 
   ImagePickerService(this.context);
-
   Future<void> pickImage(
       ImageSource source, Function(String) onImageSelected) async {
     final pickedFile = await _picker.pickImage(source: source);

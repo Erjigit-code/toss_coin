@@ -29,13 +29,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
-  
   cupertino_icons: ^1.0.6
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_cache_manager: ^3.3.2
   flutter_cupertino_datetime_picker: ^3.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
   provider: ^6.1.2

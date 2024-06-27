@@ -10,19 +10,21 @@ abstract class BackgroundState extends Equatable {
 class BackgroundInitial extends BackgroundState {}
 
 class BackgroundsLoaded extends BackgroundState {
-  final List<Map<String, String>> backgrounds;
+  final List<String> backgrounds;
   final String selectedPath;
 
   const BackgroundsLoaded(this.backgrounds, this.selectedPath);
 
-  @override
-  List<Object> get props => [backgrounds, selectedPath];
-
-  BackgroundsLoaded copyWith(
-      {List<Map<String, String>>? backgrounds, String? selectedPath}) {
+  BackgroundsLoaded copyWith({
+    List<String>? backgrounds,
+    String? selectedPath,
+  }) {
     return BackgroundsLoaded(
       backgrounds ?? this.backgrounds,
       selectedPath ?? this.selectedPath,
     );
   }
+
+  @override
+  List<Object> get props => [backgrounds, selectedPath];
 }
