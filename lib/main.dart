@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coin_flip/bloc/coin_bloc/coin_bloc.dart';
 import 'package:coin_flip/screens/main_screen/main_screen.dart';
-import 'package:hive/hive.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'bloc/initialization_bloc/initialization_bloc.dart';
