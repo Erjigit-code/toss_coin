@@ -17,15 +17,6 @@ class FlipCoin extends CoinEvent {
   List<Object> get props => [isHeads, userPrediction];
 }
 
-class _RecordLoaded extends CoinEvent {
-  final int record;
-
-  const _RecordLoaded(this.record);
-
-  @override
-  List<Object> get props => [record];
-}
-
 class UpdateStreakAndRecord extends CoinEvent {
   final String userPrediction;
   final bool isHeads;
@@ -37,6 +28,17 @@ class UpdateStreakAndRecord extends CoinEvent {
 }
 
 class ResetRecord extends CoinEvent {}
+
+class _RecordLoaded extends CoinEvent {
+  final int record;
+
+  const _RecordLoaded(this.record);
+
+  @override
+  List<Object> get props => [record];
+}
+
+class LoadCoinPreferences extends CoinEvent {}
 
 class _PreferencesLoaded extends CoinEvent {
   final int record;
@@ -57,6 +59,4 @@ class ChangeCoin extends CoinEvent {
   List<Object> get props => [newCoin];
 }
 
-class LoadCoinPreferences extends CoinEvent {
-  const LoadCoinPreferences();
-}
+class LoadStatistics extends CoinEvent {}

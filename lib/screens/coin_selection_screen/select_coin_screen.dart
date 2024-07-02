@@ -31,7 +31,7 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
     // Set the initial scroll position to somewhere in the middle
     _controller = FixedExtentScrollController(initialItem: 500 + selectedIndex);
 
-    BlocProvider.of<CoinBloc>(context).add(const LoadCoinPreferences());
+    BlocProvider.of<CoinBloc>(context).add(LoadCoinPreferences());
   }
 
   @override

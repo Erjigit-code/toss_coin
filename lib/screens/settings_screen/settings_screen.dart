@@ -1,3 +1,4 @@
+import 'package:coin_flip/screens/statistics_screen/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/coin_bloc/coin_bloc.dart';
@@ -23,6 +24,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     selectedImage = widget.initialSelectedImage;
     selectedCoin = BlocProvider.of<CoinBloc>(context).state.selectedCoin;
+    print("SettingsScreen initState: selectedCoin=$selectedCoin");
   }
 
   @override
@@ -36,6 +38,22 @@ class SettingsScreenState extends State<SettingsScreen> {
         children: [
           BackgroundOption(selectedImage: selectedImage),
           CoinOption(selectedCoin: selectedCoin),
+          ListTile(
+            title: const Text("Статистика"),
+            onTap: () {
+              print("Statistics button tapped");
+              BlocProvider.of<CoinBloc>(context).add(LoadStatistics());
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StatisticsScreen(),
+                ),
+              ).then((value) {
+                BlocProvider.of<CoinBloc>(context).add(LoadCoinPreferences());
+                print("Returning to MainScreen, reloading preferences...");
+              });
+            },
+          ),
           const Divider(),
           ResetRecordButton(),
         ],
