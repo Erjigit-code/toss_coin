@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../bloc/coin_bloc/coin_bloc.dart';
 import 'statistics_text.dart';
@@ -56,14 +58,16 @@ class StatisticsContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StatisticsText(
-                    text: "Всего бросков: $totalFlips",
+                    text: "${LocaleKeys.total_flips.tr()} $totalFlips",
                   ),
                   StatisticsRow(
-                    label: "Решка: ${headsPercentage.toStringAsFixed(2)}%",
+                    label:
+                        "${LocaleKeys.tail_.tr()}: ${headsPercentage.toStringAsFixed(2)}%",
                     imagePath: headsImagePath, // Изображение для "орла"
                   ),
                   StatisticsRow(
-                    label: "Орёл: ${tailsPercentage.toStringAsFixed(2)}%",
+                    label:
+                        "${LocaleKeys.head_.tr()}: ${tailsPercentage.toStringAsFixed(2)}%",
                     imagePath: tailsImagePath, // Изображение для "решки"
                   ),
                 ],

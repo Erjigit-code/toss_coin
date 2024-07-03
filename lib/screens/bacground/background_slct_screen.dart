@@ -1,6 +1,8 @@
 import 'dart:io'; // добавлено для использования File
 import 'dart:ui';
 
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../services/image_picker.dart';
@@ -20,7 +22,7 @@ class BackgroundSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Выбор Фона"),
+        title: Text(LocaleKeys.background_select.tr()),
       ),
       body: BlocBuilder<BackgroundBloc, BackgroundState>(
         buildWhen: (previous, current) => previous != current,

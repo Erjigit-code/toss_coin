@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../coin_bloc/coin_bloc.dart';
 import '../background_bloc/background_bloc.dart';
@@ -31,7 +32,9 @@ class InitializationBloc
       print(
           "Initialization: Background image loaded from Hive: $backgroundImage");
 
-      // Проверка, что события вызываются только один раз
+      // Ensure EasyLocalization is initialized
+      await EasyLocalization.ensureInitialized();
+
       coinBloc.add(LoadCoinPreferences());
       backgroundBloc.add(LoadPreferences(backgroundImage: backgroundImage));
       print(

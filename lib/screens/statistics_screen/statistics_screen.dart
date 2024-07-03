@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/coin_bloc/coin_bloc.dart';
@@ -12,12 +14,11 @@ class StatisticsScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text("Статистика"),
+        title: Text(LocaleKeys.statistics.tr()),
       ),
       body: BlocBuilder<CoinBloc, CoinState>(
         builder: (context, state) {
           if (state is StatisticsLoaded) {
-            print("StatisticsScreen: state.selectedCoin=${state.selectedCoin}");
             return StatisticsContent(state: state);
           } else {
             return const Center(

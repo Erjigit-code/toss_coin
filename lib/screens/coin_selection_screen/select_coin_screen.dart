@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:coin_flip/generated/locale_keys.g.dart';
 import 'package:coin_flip/screens/coin_selection_screen/widgets/coin_tile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/coin_bloc/coin_bloc.dart';
@@ -51,7 +53,7 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Выбор монеты"),
+          title: Text(LocaleKeys.coin_select.tr()),
           actions: [
             IconButton(
               icon: const Icon(Icons.check),

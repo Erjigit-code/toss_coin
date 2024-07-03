@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ImageSourceDialog extends StatelessWidget {
@@ -14,9 +16,9 @@ class ImageSourceDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.black.withOpacity(0.65),
-      title: const Text(
-        'Выберите источник изображения',
-        style: TextStyle(
+      title: Text(
+        LocaleKeys.source_of_image.tr(),
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
@@ -29,8 +31,8 @@ class ImageSourceDialog extends StatelessWidget {
               Icons.photo_size_select_actual_outlined,
               color: Colors.amber,
             ),
-            title: const Text(
-              'Галерея',
+            title: Text(
+              LocaleKeys.gallery.tr(),
               style: TextStyle(color: Colors.white),
             ),
             onTap: onGalleryTap,
@@ -40,8 +42,8 @@ class ImageSourceDialog extends StatelessWidget {
               Icons.camera_enhance_rounded,
               color: Colors.amber,
             ),
-            title: const Text(
-              'Камера',
+            title: Text(
+              LocaleKeys.camera.tr(),
               style: TextStyle(color: Colors.white),
             ),
             onTap: onCameraTap,

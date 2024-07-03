@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +17,7 @@ class BackgroundOption extends StatelessWidget {
       builder: (context, state) {
         if (state is BackgroundsLoaded) {
           return _buildSettingsOption(
-            title: "Выбор Фона",
+            title: LocaleKeys.background_select.tr(),
             onTap: () async {
               final result = await Navigator.push(
                 context,
@@ -47,6 +49,7 @@ class BackgroundOption extends StatelessWidget {
       {required String title, required VoidCallback onTap}) {
     return ListTile(
       title: Text(title),
+      titleTextStyle: TextStyle(fontSize: 23, fontFamily: 'Exo'),
       onTap: onTap,
     );
   }

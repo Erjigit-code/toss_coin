@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/coin_bloc/coin_bloc.dart';
@@ -24,7 +26,7 @@ class ScoreContainerWidget extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "Ваш рекорд: ${state.record}",
+                "${LocaleKeys.your_record.tr()} ${state.record}",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -33,7 +35,7 @@ class ScoreContainerWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "Текущая серия: ${state.currentStreak}",
+                "${LocaleKeys.current_streak.tr()} ${state.currentStreak}",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,

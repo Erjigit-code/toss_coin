@@ -1,4 +1,6 @@
 import 'dart:io'; // Добавлено для использования File
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,26 +30,17 @@ class MainScreenState extends State<MainScreen>
       GlobalKey<CoinFlipAnimationState>();
 
   @override
-  void initState() {
-    super.initState();
-    print("MainScreen initState called");
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("MainScreen didChangeDependencies called");
   }
 
   @override
   void didUpdateWidget(MainScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print("MainScreen didUpdateWidget called");
   }
 
   @override
   void dispose() {
-    print("MainScreen dispose called");
     super.dispose();
   }
 
@@ -58,7 +51,6 @@ class MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
-    print("MainScreen build called");
     return BlocBuilder<InitializationBloc, InitializationState>(
       buildWhen: (previous, current) =>
           previous != current && current is BackgroundsLoaded,
@@ -107,11 +99,17 @@ class MainScreenState extends State<MainScreen>
         : FileImage(File(backgroundImagePath));
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Орёл или Решка"),
+        title: Text(
+          LocaleKeys.head_or_tail.tr(),
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black.withOpacity(0.5),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
+            color: Colors.white,
             onPressed: () async {
               final selectedBackground = await Navigator.push(
                 context,
@@ -135,19 +133,22 @@ class MainScreenState extends State<MainScreen>
       body: Stack(
         children: <Widget>[
           BackgroundWidget(backgroundImage: backgroundImage),
-          Center(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: kToolbarHeight),
-                ScoreContainerWidget(),
-                const Spacer(),
-                const SizedBox(height: 110),
-                CoinFlipAnimationWidget(
-                  coinFlipKey: _coinFlipKey,
-                  updateResult: updateResult,
-                ),
-                const Spacer(),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(top: kToolbarHeight + 16.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: kToolbarHeight),
+                  ScoreContainerWidget(),
+                  const Spacer(),
+                  const SizedBox(height: 110),
+                  CoinFlipAnimationWidget(
+                    coinFlipKey: _coinFlipKey,
+                    updateResult: updateResult,
+                  ),
+                  const Spacer(),
+                ],
+              ),
             ),
           ),
           if (result != null) ResultContainerWidget(result: result!),

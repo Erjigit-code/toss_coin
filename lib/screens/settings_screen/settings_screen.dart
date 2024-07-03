@@ -1,6 +1,8 @@
 import 'dart:ui';
-
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:coin_flip/screens/language_screen/language_screen.dart';
 import 'package:coin_flip/screens/statistics_screen/statistics_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/coin_bloc/coin_bloc.dart';
@@ -25,18 +27,22 @@ class SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     selectedImage = widget.initialSelectedImage;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     selectedCoin = BlocProvider.of<CoinBloc>(context).state.selectedCoin;
-    print("SettingsScreen initState: selectedCoin=$selectedCoin");
+    print("SettingsScreen didChangeDependencies: selectedCoin=$selectedCoin");
   }
 
   Widget _buildWrappedContainer(Widget child) {
     return Container(
-      height: 60,
       width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(45),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Center(child: child),
     );
@@ -48,7 +54,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text("Настройки"),
+        title: Text(LocaleKeys.settings.tr()),
       ),
       body: Stack(
         children: [
@@ -67,7 +73,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: kToolbarHeight + 16.0),
+            padding: const EdgeInsets.only(top: kToolbarHeight + 30.0),
             child: Center(
               child: Column(
                 children: [
@@ -77,9 +83,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                       CoinOption(selectedCoin: selectedCoin)),
                   _buildWrappedContainer(
                     ListTile(
-                      title: const Text("Статистика"),
+                      title: Text(LocaleKeys.statistics.tr()),
+                      titleTextStyle:
+                          const TextStyle(fontSize: 23, fontFamily: 'Exo'),
                       onTap: () {
-                        print("Statistics button tapped");
                         BlocProvider.of<CoinBloc>(context)
                             .add(LoadStatistics());
                         Navigator.push(
@@ -90,13 +97,28 @@ class SettingsScreenState extends State<SettingsScreen> {
                         ).then((value) {
                           BlocProvider.of<CoinBloc>(context)
                               .add(LoadCoinPreferences());
-                          print(
-                              "Returning to MainScreen, reloading preferences...");
                         });
                       },
                     ),
                   ),
-                  ResetRecordButton(),
+                  _buildWrappedContainer(
+                    ListTile(
+                      title: Text(LocaleKeys.choose_language.tr()),
+                      titleTextStyle:
+                          const TextStyle(fontSize: 23, fontFamily: 'Exo'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LanguageScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  _buildWrappedContainer(
+                    ResetRecordButton(),
+                  ),
                 ],
               ),
             ),

@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:coin_flip/buttons/custom_button.dart';
 
@@ -21,7 +23,7 @@ class PredictionButtonsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CustomButton(
-            label: "Орёл",
+            label: LocaleKeys.head_.tr(),
             imagePath: 'assets/images/icon1.png',
             isActive: activeButton == 'Tail',
             onPressed: () {
@@ -29,7 +31,7 @@ class PredictionButtonsWidget extends StatelessWidget {
             },
           ),
           CustomButton(
-            label: "Решка",
+            label: LocaleKeys.tail_.tr(),
             imagePath: 'assets/images/icon2.png',
             isActive: activeButton == 'Head',
             onPressed: () {
