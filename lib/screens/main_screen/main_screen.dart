@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/prediction_buttons_widget.dart';
 import '../../bloc/initialization_bloc/initialization_bloc.dart';
-import '../bacground/widgets/background_widget.dart';
+import '../background/widgets/background_widget.dart';
 import 'widgets/coin_flip2.dart';
 import 'widgets/result_container_widget.dart';
 import 'widgets/score_container_widget.dart';

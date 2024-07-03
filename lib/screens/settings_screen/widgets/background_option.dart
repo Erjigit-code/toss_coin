@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bacground/background_slct_screen.dart';
+import '../../background/background_slct_screen.dart';
 import '../../../bloc/background_bloc/background_bloc.dart';
 
 class BackgroundOption extends StatelessWidget {
