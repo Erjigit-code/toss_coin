@@ -8,6 +8,8 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
+
   Future<User?> signInAnonymously() async {
     UserCredential userCredential = await _firebaseAuth.signInAnonymously();
     return userCredential.user;
@@ -41,6 +43,9 @@ class AuthService {
   }
 
   Future<bool> isNicknameTaken(String nickname) async {
+    User? user = _firebaseAuth.currentUser;
+    user ??= await signInAnonymously();
+
     final querySnapshot = await _firestore
         .collection('users')
         .where('nickname', isEqualTo: nickname.toLowerCase())

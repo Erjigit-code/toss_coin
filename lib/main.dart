@@ -104,9 +104,11 @@ class InitialScreen extends StatelessWidget {
       future: _checkIfRegistered(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         } else if (snapshot.data == true) {
-          return RegistrationScreen();
+          return AppInitializer();
         } else {
           return RegistrationScreen();
         }

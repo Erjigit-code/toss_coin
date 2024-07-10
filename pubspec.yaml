@@ -31,6 +31,7 @@ dependencies:
   audioplayers: ^6.0.0
   awesome_flutter_extensions: ^1.2.0
   build_runner: ^2.4.11
+  cached_network_image: ^3.3.1
   cloud_firestore: ^5.0.2
   country_flags: ^3.0.0
   cupertino_icons: ^1.0.6

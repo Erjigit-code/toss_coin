@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:coin_flip/generated/locale_keys.g.dart';
 import 'package:coin_flip/screens/language_screen/language_screen.dart';
 import 'package:coin_flip/screens/statistics_screen/statistics_screen.dart';
+import 'package:coin_flip/screens/user_record_screen/user_record_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,6 +112,21 @@ class SettingsScreenState extends State<SettingsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const LanguageScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  _buildWrappedContainer(
+                    ListTile(
+                      title: const Text('User Records'),
+                      titleTextStyle:
+                          const TextStyle(fontSize: 23, fontFamily: 'Exo'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UserRecordsScreen(),
                           ),
                         );
                       },

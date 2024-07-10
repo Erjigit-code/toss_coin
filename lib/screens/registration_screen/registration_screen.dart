@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:coin_flip/main.dart';
 import 'package:coin_flip/services/image_picker.dart';
+import 'dart:async';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -25,21 +26,39 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   Uint8List? _uploadedAvatar;
   final AuthService _authService = AuthService();
   bool _isNicknameTaken = false;
+  Timer? _debounce;
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _nicknameController.addListener(() {
+      _onNicknameChanged();
+    });
+  }
+
+  void _onNicknameChanged() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
       _checkNickname(_nicknameController.text);
     });
   }
 
   Future<void> _checkNickname(String nickname) async {
     if (nickname.isNotEmpty) {
-      bool isTaken = await _authService.isNicknameTaken(nickname);
-      setState(() {
-        _isNicknameTaken = isTaken;
-      });
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        user = await _authService.signInAnonymously();
+      }
+
+      if (user != null) {
+        bool isTaken = await _authService.isNicknameTaken(nickname);
+        setState(() {
+          _isNicknameTaken = isTaken;
+        });
+      } else {
+        print("User is not authenticated.");
+      }
     }
   }
 
@@ -116,6 +135,14 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   @override
+  void dispose() {
+    _nicknameController.dispose();
+    _debounce?.cancel();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -138,6 +165,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(height: 25),
               TextFieldWithShadow(
                 nicknameController: _nicknameController,
+                focusNode: _focusNode,
                 errorText: _isNicknameTaken
                     ? 'This nickname is already taken. Please choose another one.'
                     : null,
