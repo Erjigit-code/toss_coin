@@ -33,12 +33,12 @@ class CodegenLoader extends AssetLoader{
   "tail_": "Schwanz",
   "total_flips": "Totale flips:",
   "euro_": "Euro",
-  "dollar_": "US Dollar",
-  "som_": "KG Som",
+  "us_": "US Dollar",
+  "kg_": "KG Som",
   "yes": "Ja",
   "cancel": "Stornieren",
   "source_of_image": "Bildquelle auswählen",
-  "ruble_": "RU Rubel"
+  "ru_": "RU Rubel"
 };
 static const Map<String,dynamic> en = {
   "settings": "Settings",
@@ -60,11 +60,11 @@ static const Map<String,dynamic> en = {
   "tail_": "Tail",
   "total_flips": "Total flips:",
   "euro_": "Euro",
-  "dollar_": "US Dollar",
-  "som_": "KG Som",
+  "us_": "US Dollar",
+  "kg_": "KG Som",
   "yes": "Yes",
   "cancel": "Cancel",
-  "ruble_": "RU ruble"
+  "ru_": "RU ruble"
 };
 static const Map<String,dynamic> kg = {
   "settings": "Орнотуулар",
@@ -88,9 +88,9 @@ static const Map<String,dynamic> kg = {
   "tail_": "Куйрук",
   "total_flips": "Жалпы ыргытуу:",
   "euro_": "Евро",
-  "dollar_": "АКШ Доллар",
-  "som_": "Кыргыз Сом",
-  "ruble_": "Орус Рубль"
+  "us_": "АКШ Доллар",
+  "kg_": "Кыргыз Сом",
+  "ru_": "Орус Рубль"
 };
 static const Map<String,dynamic> ru = {
   "settings": "Настройки",
@@ -113,9 +113,9 @@ static const Map<String,dynamic> ru = {
   "tail_": "Решка",
   "total_flips": "Всего бросков:",
   "euro_": "Евро",
-  "dollar_": "Доллар США",
-  "som_": "Кыргыз Сом",
-  "ruble_": "Российский Рубль",
+  "us_": "Доллар США",
+  "kg_": "Кыргыз Сом",
+  "ru_": "Российский Рубль",
   "source_of_image": "Выберите источник изображения"
 };
 static const Map<String,dynamic> tr = {
@@ -127,7 +127,7 @@ static const Map<String,dynamic> tr = {
   "statistics": "İstatistik",
   "confirmation_": "Onayla",
   "request_coinfirmation": "Kaydınızı sıfırlamak istediğinizden emin misiniz?",
-  "background_select": "İstatistik",
+  "background_select": "Arkaplan seç",
   "coin_select": "Para seçimi",
   "reset_record": "Kaydı sıfırla",
   "choose_from_gallery": "Galeriden seç",
@@ -140,9 +140,9 @@ static const Map<String,dynamic> tr = {
   "tail_": "Kuyruk",
   "total_flips": "Toplam atışlar:",
   "euro_": "Euro",
-  "dollar_": "Amerikan Doları",
-  "som_": "Kırgız Somu",
-  "ruble_": "Rus Rublesi"
+  "us_": "Amerikan Doları",
+  "kg_": "Kırgız Somu",
+  "rus_": "Rus Rublesi"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "en": en, "kg": kg, "ru": ru, "tr": tr};
 }

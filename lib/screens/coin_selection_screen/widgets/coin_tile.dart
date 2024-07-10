@@ -1,3 +1,4 @@
+import 'package:coin_flip/screens/language_screen/app_localzation.dart';
 import 'package:flutter/material.dart';
 
 class CoinTile extends StatelessWidget {
@@ -18,6 +19,7 @@ class CoinTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       decoration: BoxDecoration(
@@ -49,7 +51,7 @@ class CoinTile extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  title,
+                  appLocalizations?.translate('${id}_') ?? id,
                   style: const TextStyle(
                     fontFamily: 'Exo',
                     color: Colors.white,

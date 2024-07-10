@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "847603438626",
+    "project_id": "toss-coin-47fca",
+    "storage_bucket": "toss-coin-47fca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847603438626:android:7a692c6f9afff1f4bda67b",
+        "android_client_info": {
+          "package_name": "com.example.coin_flip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYfRni9HH8x3tPuyLFuKaadkSEdR_0Q_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

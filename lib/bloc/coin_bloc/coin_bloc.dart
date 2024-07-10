@@ -1,11 +1,15 @@
+import 'package:coin_flip/firebase_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'coin_event.dart';
 part 'coin_state.dart';
 
 class CoinBloc extends Bloc<CoinEvent, CoinState> {
+  final FirebaseService _firebaseService = FirebaseService();
+
   CoinBloc()
       : super(const CoinInitial(
             currentStreak: 0,
@@ -23,8 +27,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     on<_PreferencesLoaded>(_onCoinPreferencesLoaded);
     on<ChangeCoin>(_onChangeCoin);
     on<LoadCoinPreferences>(_onLoadCoinPreferences);
-    on<LoadStatistics>(
-        _onLoadStatistics); // Добавляем обработчик события LoadStatistics
+    on<LoadStatistics>(_onLoadStatistics);
   }
 
   Future<void> _onLoadCoinPreferences(
@@ -69,7 +72,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
   }
 
   void _onUpdateStreakAndRecord(
-      UpdateStreakAndRecord event, Emitter<CoinState> emit) {
+      UpdateStreakAndRecord event, Emitter<CoinState> emit) async {
     int newStreak = state.currentStreak;
     int newRecord = state.record;
     int newTotalFlips = state.totalFlips + 1;
@@ -80,13 +83,14 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
       newStreak++;
       if (newStreak > newRecord) {
         newRecord = newStreak;
-        _saveRecord(newRecord);
+        await _saveRecord(newRecord);
       }
     } else {
       newStreak = 0;
     }
 
-    _saveStatistics(newStreak, newTotalFlips, newHeadsCount, newTailsCount);
+    await _saveStatistics(
+        newStreak, newTotalFlips, newHeadsCount, newTailsCount);
 
     final newState = CoinFlipped(
         event.isHeads,
@@ -112,6 +116,12 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
   Future<void> _saveRecord(int record) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('record', record);
+
+    // Save record to Firestore
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await _firebaseService.updateUserRecord(user.uid, record);
+    }
   }
 
   void _onRecordLoaded(_RecordLoaded event, Emitter<CoinState> emit) {

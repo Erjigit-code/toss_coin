@@ -7,7 +7,7 @@
     "statistics": "İstatistik",
     "confirmation_": "Onayla",
     "request_coinfirmation": "Kaydınızı sıfırlamak istediğinizden emin misiniz?",
-    "background_select": "İstatistik",
+    "background_select": "Arkaplan seç",
     "coin_select": "Para seçimi",
     "reset_record": "Kaydı sıfırla",
     "choose_from_gallery": "Galeriden seç",
@@ -20,7 +20,7 @@
     "tail_": "Kuyruk",
     "total_flips": "Toplam atışlar:",
     "euro_": "Euro",
-    "dollar_": "Amerikan Doları",
-    "som_": "Kırgız Somu",
-    "ruble_": "Rus Rublesi"
+    "us_": "Amerikan Doları",
+    "kg_": "Kırgız Somu",
+    "rus_": "Rus Rublesi"
 }

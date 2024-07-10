@@ -1,5 +1,10 @@
+import 'package:coin_flip/firebase_options.dart';
 import 'package:coin_flip/generated/codegen_loader.g.dart';
+import 'package:coin_flip/screens/language_screen/app_localzation.dart';
+import 'package:coin_flip/screens/registration_screen/registration_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coin_flip/bloc/coin_bloc/coin_bloc.dart';
@@ -13,14 +18,24 @@ import 'custom_cupertino_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Initialize Firebase App Check
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.playIntegrity,
+  );
+
   await Hive.initFlutter();
   await Hive.openBox('settings');
   await EasyLocalization.ensureInitialized();
-
   runApp(
     EasyLocalization(
-      assetLoader: CodegenLoader(),
-      supportedLocales: [
+      assetLoader: const CodegenLoader(),
+      supportedLocales: const [
         Locale('en'),
         Locale('de'),
         Locale('ru'),
@@ -45,7 +60,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BackgroundBloc>(
           create: (context) => BackgroundBloc(context)
-            ..add(LoadBackgrounds([
+            ..add(const LoadBackgrounds([
               'assets/images/school.jpeg',
               'assets/images/stadium.jpeg',
               'assets/images/pool.jpeg',
@@ -68,19 +83,40 @@ class MyApp extends StatelessWidget {
               ...context.localizationDelegates,
               CustomMaterialLocalizations.delegate,
               CustomCupertinoLocalizations.delegate,
+              AppLocalizations.delegate,
             ],
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             title: 'Coin Flip',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: AppInitializer(),
+            home: InitialScreen(),
             debugShowCheckedModeBanner: false,
           );
         },
       ),
     );
+  }
+}
+
+class InitialScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _checkIfRegistered(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.data == true) {
+          return RegistrationScreen();
+        } else {
+          return RegistrationScreen();
+        }
+      },
+    );
+  }
+
+  Future<bool> _checkIfRegistered() async {
+    final box = await Hive.openBox('settings');
+    return box.containsKey('user');
   }
 }
 
@@ -90,7 +126,7 @@ class AppInitializer extends StatelessWidget {
     return BlocBuilder<InitializationBloc, InitializationState>(
       builder: (context, state) {
         if (state is InitializationLoading) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -104,7 +140,7 @@ class AppInitializer extends StatelessWidget {
             ),
           );
         } else {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: Text('Unexpected error loading data'),
             ),

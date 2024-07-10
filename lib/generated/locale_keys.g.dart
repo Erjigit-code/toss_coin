@@ -19,11 +19,11 @@ abstract class  LocaleKeys {
   static const tail_ = 'tail_';
   static const total_flips = 'total_flips';
   static const euro_ = 'euro_';
-  static const dollar_ = 'dollar_';
-  static const som_ = 'som_';
+  static const us_ = 'us_';
+  static const kg_ = 'kg_';
   static const yes = 'yes';
   static const cancel = 'cancel';
   static const source_of_image = 'source_of_image';
-  static const ruble_ = 'ruble_';
+  static const ru_ = 'ru_';
 
 }

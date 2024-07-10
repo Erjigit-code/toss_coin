@@ -110,10 +110,12 @@ class BackgroundSelectionScreen extends StatelessWidget {
                   child: Center(
                     child: ChooseImageButton(
                       onPressed: () {
-                        imagePickerService
-                            .showImageSourceDialog((selectedImagePath) {
-                          // Обработайте выбранное изображение, если нужно
-                        });
+                        imagePickerService.showImageSourceDialog(
+                          (selectedImagePath) {
+                            // Обработайте выбранное изображение, если нужно
+                          },
+                          ImagePickerType.background,
+                        );
                       },
                     ),
                   ),

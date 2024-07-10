@@ -107,7 +107,8 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
                         headImagePath: coin['head']!,
                         tailImagePath: coin['tail']!,
                         id: coin['id']!,
-                        title: coin['title']!,
+                        title: coin[
+                            'title']!, //тут нужно передать Text(LocaleKeys.соответствующий перевод к определенной валюте.tr()),
                         isSelected: selectedCoin == coin['id'],
                       );
                     },
