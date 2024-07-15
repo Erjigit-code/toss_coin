@@ -113,7 +113,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   ),
                   _buildWrappedContainer(
                     ListTile(
-                      title: const Text('User Records'),
+                      title: Text(LocaleKeys.global_records.tr()),
                       titleTextStyle:
                           const TextStyle(fontSize: 23, fontFamily: 'Exo'),
                       onTap: () {

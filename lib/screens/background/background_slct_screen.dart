@@ -21,7 +21,9 @@ class BackgroundSelectionScreen extends StatelessWidget {
         context); // Создайте экземпляр службы выбора изображений
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text(LocaleKeys.background_select.tr()),
       ),
       body: BlocBuilder<BackgroundBloc, BackgroundState>(
@@ -50,57 +52,60 @@ class BackgroundSelectionScreen extends StatelessWidget {
                   left: 0,
                   right: 0,
                   bottom: 85, // резервируем место для кнопки
-                  child: GridView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 30,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.6,
-                    ),
-                    itemCount: state.backgrounds.length,
-                    itemBuilder: (context, index) {
-                      final background = state.backgrounds[index];
-                      final isAsset = !background.startsWith(
-                          '/'); // Проверка, является ли путь ассетом или файлом
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: kToolbarHeight + 10.0),
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 30,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: 0.6,
+                      ),
+                      itemCount: state.backgrounds.length,
+                      itemBuilder: (context, index) {
+                        final background = state.backgrounds[index];
+                        final isAsset = !background.startsWith(
+                            '/'); // Проверка, является ли путь ассетом или файлом
 
-                      return GestureDetector(
-                        onTap: () {
-                          BlocProvider.of<BackgroundBloc>(context)
-                              .add(ChangeBackground(background));
-                          Navigator.pop(context, background);
-                        },
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: isAsset
-                                      ? AssetImage(background)
-                                      : FileImage(File(
-                                          background)), // Используем AssetImage или FileImage
-                                  fit: BoxFit.cover,
+                        return GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<BackgroundBloc>(context)
+                                .add(ChangeBackground(background));
+                            Navigator.pop(context, background);
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: isAsset
+                                        ? AssetImage(background)
+                                        : FileImage(File(
+                                            background)), // Используем AssetImage или FileImage
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: state.selectedPath == background
+                                      ? Border.all(
+                                          color: Colors.white.withOpacity(0.7),
+                                          width: 5)
+                                      : null,
                                 ),
-                                borderRadius: BorderRadius.circular(8),
-                                border: state.selectedPath == background
-                                    ? Border.all(
-                                        color: Colors.white.withOpacity(0.7),
-                                        width: 5)
-                                    : null,
                               ),
-                            ),
-                            if (state.selectedPath == background)
-                              Icon(
-                                Icons.check_circle,
-                                color: Colors.white.withOpacity(0.7),
-                                size: 100,
-                              ),
-                          ],
-                        ),
-                      );
-                    },
+                              if (state.selectedPath == background)
+                                Icon(
+                                  Icons.check_circle,
+                                  color: Colors.white.withOpacity(0.7),
+                                  size: 100,
+                                ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Positioned(

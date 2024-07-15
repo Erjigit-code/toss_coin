@@ -1,3 +1,5 @@
+import 'package:coin_flip/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:coin_flip/screens/user_record_screen/user_record.dart';
 import 'package:coin_flip/screens/user_record_screen/get_image.dart';
@@ -33,7 +35,7 @@ Future<void> showUserProfileDialog(BuildContext context, UserRecord record) {
             ),
             SizedBox(height: 10),
             Text(
-              '"LocaleKeys.rec.tr()": ${record.record}',
+              '${LocaleKeys.record.tr()}: ${record.record}',
               style: TextStyle(
                 fontSize: 18,
                 fontFamily: 'Exo',
@@ -46,7 +48,7 @@ Future<void> showUserProfileDialog(BuildContext context, UserRecord record) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("LocaleKeys.close.tr()"),
+            child: Text(LocaleKeys.close.tr()),
           ),
         ],
       );

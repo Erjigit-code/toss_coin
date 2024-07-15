@@ -22,5 +22,8 @@
     "yes": "Ja",
     "cancel": "Stornieren",
     "source_of_image": "Bildquelle auswählen",
-    "rus_": "RU Rubel"
+    "rus_": "RU Rubel",
+    "global_records": "Benutzerdatensätze",
+    "record": "Rekord",
+    "close": "Schließen"
 }

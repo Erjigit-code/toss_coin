@@ -1,5 +1,6 @@
 import 'package:coin_flip/bloc/UserProfile_bloc/user_profile_bloc.dart';
 import 'package:coin_flip/screens/user_record_screen/get_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -94,6 +95,7 @@ class MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final locale = EasyLocalization.of(context)?.locale;
     return _buildScaffold(context);
   }
 

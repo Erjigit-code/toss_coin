@@ -24,6 +24,9 @@ abstract class  LocaleKeys {
   static const yes = 'yes';
   static const cancel = 'cancel';
   static const source_of_image = 'source_of_image';
-  static const ru_ = 'ru_';
+  static const rus_ = 'rus_';
+  static const global_records = 'global_records';
+  static const record = 'record';
+  static const close = 'close';
 
 }

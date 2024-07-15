@@ -21,14 +21,14 @@ class ChooseImageButton extends StatelessWidget {
               style: ButtonStyle(
                   elevation: const WidgetStatePropertyAll(0),
                   backgroundColor:
-                      WidgetStatePropertyAll(Colors.white.withOpacity(0.4))),
+                      WidgetStatePropertyAll(Colors.white.withOpacity(0.7))),
               onPressed: onPressed,
               child: Text(
                 LocaleKeys.choose_from_gallery.tr(),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Colors.black),
               ),
             ),
           ),

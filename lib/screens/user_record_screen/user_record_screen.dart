@@ -30,7 +30,7 @@ class UserRecordsScreenState extends State<UserRecordsScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("LocaleKeys.global_records.tr()"),
+        title: Text(LocaleKeys.global_records.tr()),
         backgroundColor: Colors.transparent,
       ),
       body: BlocProvider(

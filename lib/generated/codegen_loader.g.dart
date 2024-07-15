@@ -38,7 +38,10 @@ class CodegenLoader extends AssetLoader{
   "yes": "Ja",
   "cancel": "Stornieren",
   "source_of_image": "Bildquelle auswählen",
-  "ru_": "RU Rubel"
+  "rus_": "RU Rubel",
+  "global_records": "Benutzerdatensätze",
+  "record": "Rekord",
+  "close": "Schließen"
 };
 static const Map<String,dynamic> en = {
   "settings": "Settings",
@@ -64,7 +67,10 @@ static const Map<String,dynamic> en = {
   "kg_": "KG Som",
   "yes": "Yes",
   "cancel": "Cancel",
-  "ru_": "RU ruble"
+  "rus_": "RU ruble",
+  "global_records": "User records",
+  "record": "Record",
+  "close": "Close"
 };
 static const Map<String,dynamic> kg = {
   "settings": "Орнотуулар",
@@ -90,7 +96,10 @@ static const Map<String,dynamic> kg = {
   "euro_": "Евро",
   "us_": "АКШ Доллар",
   "kg_": "Кыргыз Сом",
-  "ru_": "Орус Рубль"
+  "rus_": "Орус Рубль",
+  "global_records": "Колдонуучулардын рекорду",
+  "record": "Рекорд",
+  "close": "Жабуу"
 };
 static const Map<String,dynamic> ru = {
   "settings": "Настройки",
@@ -115,8 +124,11 @@ static const Map<String,dynamic> ru = {
   "euro_": "Евро",
   "us_": "Доллар США",
   "kg_": "Кыргыз Сом",
-  "ru_": "Российский Рубль",
-  "source_of_image": "Выберите источник изображения"
+  "rus_": "Российский Рубль",
+  "source_of_image": "Выберите источник изображения",
+  "global_records": "Рекорды пользователей",
+  "record": "Рекорд",
+  "close": "Закрыть"
 };
 static const Map<String,dynamic> tr = {
   "source_of_image": "Görüntü kaynağını seçin",
@@ -142,7 +154,10 @@ static const Map<String,dynamic> tr = {
   "euro_": "Euro",
   "us_": "Amerikan Doları",
   "kg_": "Kırgız Somu",
-  "rus_": "Rus Rublesi"
+  "rus_": "Rus Rublesi",
+  "global_records": "Kullanıcı kayıtları",
+  "record": "Kayıt",
+  "close": "Kapalı"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "en": en, "kg": kg, "ru": ru, "tr": tr};
 }
