@@ -28,16 +28,17 @@ class ScoreContainerWidget extends StatelessWidget {
               Text(
                 "${LocaleKeys.your_record.tr()} ${state.record}",
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'exo'),
               ),
               const SizedBox(height: 10),
               Text(
                 "${LocaleKeys.current_streak.tr()} ${state.currentStreak}",
                 style: const TextStyle(
                   color: Colors.white,
+                  fontFamily: 'exo',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),

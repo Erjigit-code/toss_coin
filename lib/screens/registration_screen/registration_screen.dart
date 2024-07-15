@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:coin_flip/app_initializer.dart';
+import 'package:coin_flip/widgets/app_initializer.dart';
 import 'package:coin_flip/constants/constants.dart';
 import 'package:coin_flip/screens/registration_screen/service/auth_servise.dart';
 

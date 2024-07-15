@@ -1,10 +1,10 @@
-import 'package:coin_flip/app_initializer.dart';
+import 'package:coin_flip/widgets/app_initializer.dart';
 import 'package:coin_flip/bloc/UserProfile_bloc/user_profile_bloc.dart';
 import 'package:coin_flip/bloc/records_bloc/user_records_bloc.dart';
 import 'package:coin_flip/constants/constants.dart';
 import 'package:coin_flip/firebase_options.dart';
 import 'package:coin_flip/generated/codegen_loader.g.dart';
-import 'package:coin_flip/initial_Screen.dart';
+import 'package:coin_flip/widgets/initial_Screen.dart';
 
 import 'package:coin_flip/screens/language_screen/app_localzation.dart';
 import 'package:coin_flip/screens/registration_screen/service/auth_servise.dart';
@@ -17,8 +17,8 @@ import 'package:coin_flip/bloc/coin_bloc/coin_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'bloc/initialization_bloc/initialization_bloc.dart';
 import 'bloc/background_bloc/background_bloc.dart';
-import 'custom_material_localizations.dart';
-import 'custom_cupertino_localizations.dart';
+import 'widgets/custom_material_localizations.dart';
+import 'widgets/custom_cupertino_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

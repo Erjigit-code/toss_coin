@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:coin_flip/screens/registration_screen/registration_screen.dart';
-import 'package:coin_flip/app_initializer.dart';
+import 'package:coin_flip/widgets/app_initializer.dart';
 import 'package:coin_flip/bloc/initialization_bloc/initialization_bloc.dart';
-import 'constants/constants.dart';
+import '../constants/constants.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({Key? key}) : super(key: key);

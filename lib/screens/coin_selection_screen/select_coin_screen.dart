@@ -36,6 +36,11 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
     BlocProvider.of<CoinBloc>(context).add(LoadCoinPreferences());
   }
 
+  void _confirmSelection() {
+    BlocProvider.of<CoinBloc>(context).add(ChangeCoin(selectedCoin));
+    Navigator.pop(context, selectedCoin);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CoinBloc, CoinState>(
@@ -50,6 +55,12 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
         }
       },
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _confirmSelection();
+          },
+          child: const Icon(Icons.check),
+        ),
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -58,9 +69,7 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
             IconButton(
               icon: const Icon(Icons.check),
               onPressed: () {
-                BlocProvider.of<CoinBloc>(context)
-                    .add(ChangeCoin(selectedCoin));
-                Navigator.pop(context, selectedCoin);
+                _confirmSelection();
               },
             ),
           ],
@@ -103,13 +112,16 @@ class CoinSelectionScreenState extends State<CoinSelectionScreen> {
                         return null;
                       }
                       final coin = infiniteCoins[index];
-                      return CoinTile(
-                        headImagePath: coin['head']!,
-                        tailImagePath: coin['tail']!,
-                        id: coin['id']!,
-                        title: coin[
-                            'title']!, //тут нужно передать Text(LocaleKeys.соответствующий перевод к определенной валюте.tr()),
-                        isSelected: selectedCoin == coin['id'],
+                      return InkWell(
+                        onTap: _confirmSelection,
+                        child: CoinTile(
+                          headImagePath: coin['head']!,
+                          tailImagePath: coin['tail']!,
+                          id: coin['id']!,
+                          title: coin[
+                              'title']!, //тут нужно передать Text(LocaleKeys.соответствующий перевод к определенной валюте.tr()),
+                          isSelected: selectedCoin == coin['id'],
+                        ),
                       );
                     },
                     childCount: infiniteCoins.length,

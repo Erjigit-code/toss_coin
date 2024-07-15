@@ -108,9 +108,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                             Text(
                               localeName,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: isSelected ? 30 : 20,
                                 fontWeight: FontWeight.bold,
-                                color: isSelected ? Colors.blue : Colors.black,
+                                color: isSelected ? Colors.white : Colors.black,
                               ),
                             ),
                           ],
