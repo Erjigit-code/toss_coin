@@ -17,20 +17,24 @@ class FirebaseService {
       User? user = await _authService.signInAnonymously();
 
       if (user != null) {
-        // Загрузка аватара в Firebase Storage
         String fileName = basename(avatar.path);
         Reference storageRef =
             _storage.ref().child('avatars/${user.uid}/$fileName');
+
+        // Запуск загрузки файла
         UploadTask uploadTask = storageRef.putFile(avatar);
         TaskSnapshot snapshot = await uploadTask;
         String avatarUrl = await snapshot.ref.getDownloadURL();
 
-        // Сохранение данных пользователя в Firestore
-        await _firestore.collection('users').doc(user.uid).set({
-          'nickname': nickname,
-          'avatarUrl': avatarUrl,
-          'record': record,
-        });
+        // Параллельное выполнение сохранения данных в Firestore и других возможных операций
+        await Future.wait([
+          _firestore.collection('users').doc(user.uid).set({
+            'nickname': nickname,
+            'avatarUrl': avatarUrl,
+            'record': record,
+          }),
+          // Здесь можно добавить другие параллельные операции, если необходимо
+        ]);
       } else {
         print("User is not authenticated.");
       }

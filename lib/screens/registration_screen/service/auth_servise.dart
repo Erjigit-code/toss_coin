@@ -27,8 +27,7 @@ class AuthService {
   Future<void> saveUserToFirestore(
       User user, String nickname, String avatarUrl) async {
     await _firestore.collection('users').doc(user.uid).set({
-      'nickname':
-          nickname.toLowerCase(), // Lowercase for case-insensitive search
+      'nickname': nickname,
       'avatarUrl': avatarUrl,
       'record': 0,
     });
@@ -51,5 +50,11 @@ class AuthService {
         .where('nickname', isEqualTo: nickname.toLowerCase())
         .get();
     return querySnapshot.docs.isNotEmpty;
+  }
+
+  Future<Map<String, dynamic>> getUserData(String uid) async {
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(uid).get();
+    return userDoc.data() as Map<String, dynamic>;
   }
 }

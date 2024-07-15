@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:coin_flip/services/image_source_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import '../bloc/background_bloc/background_bloc.dart';
 
 enum ImagePickerType { background, avatar }
@@ -18,6 +21,14 @@ class ImagePickerService {
     final pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile != null) {
+      // Предзагрузка изображения перед отправкой в Bloc
+      await precacheImage(FileImage(File(pickedFile.path)), context);
+
+      // Сохранение изображения в кэш
+      final file = File(pickedFile.path);
+      final bytes = await file.readAsBytes();
+      await DefaultCacheManager().putFile(pickedFile.path, bytes);
+
       onImageSelected(pickedFile.path);
       if (type == ImagePickerType.background) {
         BlocProvider.of<BackgroundBloc>(context)

@@ -1,8 +1,10 @@
-import 'dart:io'; // Добавлено для использования File
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 part 'background_event.dart';
 part 'background_state.dart';
@@ -18,12 +20,16 @@ class BackgroundBloc extends Bloc<BackgroundEvent, BackgroundState> {
 
   void _onLoadBackgrounds(
       LoadBackgrounds event, Emitter<BackgroundState> emit) {
-    print("Loading backgrounds...");
     try {
-      emit(BackgroundsLoaded(event.backgrounds, 'assets/images/school.jpeg'));
-      print("Backgrounds successfully loaded.");
+      final box = Hive.box('settings');
+      String backgroundImage =
+          box.get('backgroundImage', defaultValue: 'assets/images/school.jpeg');
+      emit(BackgroundsLoaded(event.backgrounds, backgroundImage));
+      print(
+          "Backgrounds successfully loaded with default from cache: $backgroundImage");
     } catch (e) {
       print("Error loading backgrounds: $e");
+      emit(BackgroundsLoaded(event.backgrounds, 'assets/images/school.jpeg'));
     }
   }
 
@@ -50,14 +56,10 @@ class BackgroundBloc extends Bloc<BackgroundEvent, BackgroundState> {
       final box = Hive.box('settings');
       try {
         await box.put('backgroundImage', event.newBackground);
-        print("Changed background to: ${event.newBackground}");
         await _precacheImage(event.newBackground);
         emit((state as BackgroundsLoaded)
             .copyWith(selectedPath: event.newBackground));
-        print("Background successfully changed and precached.");
-      } catch (e) {
-        print("Error changing background: $e");
-      }
+      } catch (e) {}
     }
   }
 
@@ -66,7 +68,9 @@ class BackgroundBloc extends Bloc<BackgroundEvent, BackgroundState> {
     if (isAsset) {
       await precacheImage(AssetImage(imagePath), context);
     } else {
-      await precacheImage(FileImage(File(imagePath)), context);
+      final file = File(imagePath);
+      await precacheImage(FileImage(file), context);
+      await DefaultCacheManager().putFile(imagePath, await file.readAsBytes());
     }
   }
 }

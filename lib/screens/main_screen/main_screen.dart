@@ -1,11 +1,12 @@
-import 'dart:io'; // Добавлено для использования File
-import 'package:coin_flip/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:coin_flip/bloc/UserProfile_bloc/user_profile_bloc.dart';
+import 'package:coin_flip/screens/user_record_screen/get_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:hive/hive.dart';
 
 import 'widgets/prediction_buttons_widget.dart';
-import '../../bloc/initialization_bloc/initialization_bloc.dart';
+
 import '../background/widgets/background_widget.dart';
 import 'widgets/coin_flip2.dart';
 import 'widgets/result_container_widget.dart';
@@ -26,12 +27,55 @@ class MainScreenState extends State<MainScreen>
   String? result;
   String? userPrediction;
   String? activeButton;
+  ImageProvider? backgroundImage;
+  String? currentUserNickname;
+  String? currentUserAvatarUrl;
   final GlobalKey<CoinFlipAnimationState> _coinFlipKey =
       GlobalKey<CoinFlipAnimationState>();
 
   @override
+  void initState() {
+    super.initState();
+    _preloadBackgroundImage();
+    context.read<UserProfileBloc>().add(LoadUserProfile());
+  }
+
+  Future<void> _preloadBackgroundImage() async {
+    final box = Hive.box('settings');
+    final backgroundImagePath =
+        box.get('backgroundImage', defaultValue: 'assets/images/school.jpeg');
+
+    if (backgroundImagePath.startsWith('assets/')) {
+      setState(() {
+        backgroundImage = AssetImage(backgroundImagePath);
+      });
+    } else {
+      final file =
+          await DefaultCacheManager().getSingleFile(backgroundImagePath);
+      setState(() {
+        backgroundImage = FileImage(file);
+      });
+    }
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    BlocProvider.of<BackgroundBloc>(context).stream.listen((state) async {
+      if (state is BackgroundsLoaded) {
+        if (state.selectedPath.startsWith('assets/')) {
+          setState(() {
+            backgroundImage = AssetImage(state.selectedPath);
+          });
+        } else {
+          final file =
+              await DefaultCacheManager().getSingleFile(state.selectedPath);
+          setState(() {
+            backgroundImage = FileImage(file);
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -50,60 +94,38 @@ class MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    return BlocBuilder<InitializationBloc, InitializationState>(
-      buildWhen: (previous, current) =>
-          previous != current && current is BackgroundsLoaded,
-      builder: (context, state) {
-        if (state is InitializationLoading) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (state is InitializationLoaded) {
-          return BlocBuilder<BackgroundBloc, BackgroundState>(
-            builder: (context, backgroundState) {
-              if (backgroundState is BackgroundsLoaded) {
-                return _buildMainScreen(context, backgroundState.selectedPath);
-              } else {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-            },
-          );
-        } else if (state is InitializationError) {
-          return Scaffold(
-            body: Center(
-              child: Text('Error loading data: ${state.message}'),
-            ),
-          );
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: Text('Unexpected error loading data'),
-            ),
-          );
-        }
-      },
-    );
+    return _buildScaffold(context);
   }
 
-  Widget _buildMainScreen(BuildContext context, String backgroundImagePath) {
-    final isAsset = !backgroundImagePath.startsWith('/');
-    final backgroundImage = isAsset
-        ? AssetImage(backgroundImagePath)
-        : FileImage(File(backgroundImagePath));
-
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(
-          LocaleKeys.head_or_tail.tr(),
-          style: TextStyle(color: Colors.white),
+        title: BlocBuilder<UserProfileBloc, UserProfileState>(
+          builder: (context, state) {
+            if (state is UserProfileLoaded) {
+              return Row(
+                children: [
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: ClipOval(
+                      child: getImageWidget(state.avatarUrl),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    state.nickname,
+                    style: TextStyle(color: Colors.white, fontFamily: 'Exo'),
+                  ),
+                ],
+              );
+            } else if (state is UserProfileLoading) {
+              return CircularProgressIndicator();
+            } else {
+              return const Text('User Records');
+            }
+          },
         ),
         backgroundColor: Colors.black.withOpacity(0.5),
         actions: [
@@ -132,7 +154,8 @@ class MainScreenState extends State<MainScreen>
       ),
       body: Stack(
         children: <Widget>[
-          BackgroundWidget(backgroundImage: backgroundImage),
+          if (backgroundImage != null)
+            BackgroundWidget(backgroundImage: backgroundImage!),
           Padding(
             padding: const EdgeInsets.only(top: kToolbarHeight + 16.0),
             child: Center(

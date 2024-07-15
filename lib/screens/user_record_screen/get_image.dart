@@ -1,41 +1,39 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
-Widget getImageWidget(String imageUrl) {
+import 'package:coin_flip/screens/user_record_screen/image_cache.dart';
+
+Widget getImageWidget(String imageUrl,
+    {double height = 60, double width = 60}) {
   return FutureBuilder<Uint8List>(
-    future: fetchImage(imageUrl),
+    future: ImageCacheManager.getFromCache(imageUrl),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         if (snapshot.hasError) {
           return const Icon(Icons.error, color: Colors.red);
         }
-
         if (snapshot.hasData) {
           final Uint8List imageData = snapshot.data!;
-          final String mimeType = getMimeType(imageData);
-
+          String mimeType = getMimeType(imageData);
           if (mimeType == 'image/svg+xml') {
             return SvgPicture.memory(
               imageData,
-              placeholderBuilder: (BuildContext context) =>
-                  const CircularProgressIndicator(),
-              height: 60,
-              width: 60,
+              height: height,
+              width: width,
               fit: BoxFit.cover,
             );
           } else {
-            return Image.memory(
-              imageData,
-              height: 60,
-              width: 60,
+            // Здесь используется CachedNetworkImage для растровых изображений
+            return CachedNetworkImage(
+              imageUrl: imageUrl,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.error, color: Colors.red),
+              height: height,
+              width: width,
               fit: BoxFit.cover,
-              errorBuilder:
-                  (BuildContext context, Object error, StackTrace? stackTrace) {
-                return const Icon(Icons.error, color: Colors.red);
-              },
             );
           }
         } else {
@@ -50,25 +48,16 @@ Widget getImageWidget(String imageUrl) {
   );
 }
 
-Future<Uint8List> fetchImage(String url) async {
-  final response = await http.get(Uri.parse(url));
-  if (response.statusCode == 200) {
-    return response.bodyBytes;
-  } else {
-    throw Exception('Failed to load image');
-  }
-}
-
 String getMimeType(Uint8List bytes) {
-  // Простая проверка типа данных
+  // Simple data type check
   if (bytes.length > 4 &&
-          bytes[0] == 0x3C && // <
-          bytes[1] == 0x73 && // s
-          bytes[2] == 0x76 && // v
-          bytes[3] == 0x67 && // g
-          bytes[4] == 0x20 // space
-      ) {
+      bytes[0] == 0x3C && // <
+      bytes[1] == 0x73 && // s
+      bytes[2] == 0x76 && // v
+      bytes[3] == 0x67 && // g
+      bytes[4] == 0x20) {
+    // space
     return 'image/svg+xml';
   }
-  return 'image/png'; // Предполагаем, что все остальные - растровые изображения
+  return 'image/png'; // Assume everything else is bitmap
 }
