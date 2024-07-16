@@ -46,6 +46,7 @@ dependencies:
   flutter_cache_manager: ^3.3.2
   flutter_cupertino_datetime_picker: ^3.0.0
   flutter_localization: ^0.2.0
+  flutter_native_splash: ^2.4.1
   flutter_svg: ^2.0.10+1
   font_awesome_flutter: ^10.7.0
   get_it: ^7.7.0
@@ -60,10 +61,17 @@ dependencies:
   shared_preferences: ^2.2.3
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

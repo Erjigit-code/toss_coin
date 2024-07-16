@@ -193,7 +193,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         child: Wrap(
                           spacing: 15,
                           runSpacing: 15,
-                          children: List.generate(9, (index) {
+                          children: List.generate(12, (index) {
                             final avatarSvg =
                                 RandomAvatarString(index.toString());
                             return AvatarWidget(

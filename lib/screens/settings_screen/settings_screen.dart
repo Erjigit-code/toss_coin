@@ -60,7 +60,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Stack(
         children: [
-          SmoothBack(),
+          const SmoothBack(),
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
             child: Container(
